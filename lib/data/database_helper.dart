@@ -1,7 +1,6 @@
 import 'package:my_pantry/model/ingredient.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -44,4 +43,10 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.insert('fridge_ingredients', ingredient.toMap());
   }
+
+  Future<int> remove(int id) async {
+    Database db = await instance.database;
+    return await db.delete('fridge_ingredients', where: 'id = ?', whereArgs: [id]);
+  }
+
 }

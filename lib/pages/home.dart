@@ -3,6 +3,9 @@ import 'package:my_pantry/data/database_helper.dart';
 import 'package:my_pantry/model/ingredient.dart';
 import 'package:my_pantry/pages/add_ingredient.dart';
 import 'package:sqflite/sqflite.dart';
+// import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,6 +19,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsFlutterBinding.ensureInitialized();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[900],
@@ -32,9 +36,21 @@ class _HomeState extends State<Home> {
             }
             return snapshot.data!.isEmpty ? const Center(child: Text('No ingredients in fridge')) : ListView(
               children: snapshot.data!.map((ingredient) {
-                return Center(
-                  child: ListTile(
-                    title: Text(ingredient.name),
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Card(
+                    child: ListTile(
+                      onLongPress: () {
+                        setState(() {
+                          DatabaseHelper.instance.remove(ingredient.id);
+                        });
+                      },
+                      title: Text(ingredient.name),
+                      contentPadding: const EdgeInsets.all(8.0),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(ingredient.image),
+                      ),
+                    ),
                   ),
                 );
             }).toList(),
@@ -56,7 +72,16 @@ class _HomeState extends State<Home> {
     );
   }
 }
+void showToastMessage(String message){
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1, //for iOS only
+      textColor: Colors.white, //message text color
+      fontSize: 16.0
+  );
+}
 
-//   WidgetsFlutterBinding.ensureInitialized();
 
 

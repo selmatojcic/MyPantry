@@ -32,9 +32,7 @@ class ApiService {
     try {
       var response = await http.get(uri, headers: headers);
       final data = json.decode(response.body);
-      print("dataaa $data");
       Ingredients ingredients = Ingredients.fromJson(data);
-      print("ingredientssss $ingredients");
 
       return ingredients;
     } catch (err) {

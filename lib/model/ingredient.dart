@@ -19,7 +19,7 @@ class Result {
     return Result(
       id: map['id'],
       name: map['name'],
-      image: 'https://spoonacular.com/cdn/ingredients_100x100/' + map['image'],
+      image: map['image'],
     );
   }
 
@@ -30,7 +30,6 @@ class Result {
       'image': image
     };
   }
-
 }
 
 class Ingredients {

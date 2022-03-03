@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_pantry/data/database_helper.dart';
 import 'package:my_pantry/services/api_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:my_pantry/model/ingredient.dart';
 
 class AddIngredient extends StatefulWidget {
   const AddIngredient({Key? key}) : super(key: key);
@@ -39,14 +40,14 @@ class _AddIngredientState extends State<AddIngredient> {
                         padding: const EdgeInsets.all(4.0),
                         child: Card(
                           child: ListTile(
-                            // onTap: () async {
-                            //   await DatabaseHelper.instance.add(
-                            //     snapshot.data
-                            //   );
-                            //   showToastMessage("Added ${snapshot.data} to Fridge");
-                            // },
-                            onTap: ()  {
-                              showToastMessage("Added ${snapshot.data} to Fridge");
+                            onTap: () async {
+                              await DatabaseHelper.instance.add(
+                                snapshot.data.results[index]
+                              );
+                              // setState(() {
+                              //
+                              // });
+                              showToastMessage("Added ${snapshot.data.results[index]} to Fridge");
                             },
                             title: Text(snapshot.data.results[index].name),
                             contentPadding: const EdgeInsets.all(8.0),
