@@ -8,7 +8,7 @@ class ApiService {
   static final ApiService instance = ApiService._instantiate();
 
   final String _baseURL = "api.spoonacular.com";
-  final String query = "apple";
+  String query = "apple";
   static const String API_KEY ="d5e5abb43ff04413b72c202719110909";
 
   Future<Ingredients> fetchIngredients() async {

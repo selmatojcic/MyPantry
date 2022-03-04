@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_pantry/data/database_helper.dart';
 import 'package:my_pantry/model/ingredient.dart';
 import 'package:my_pantry/pages/add_ingredient.dart';
-import 'package:sqflite/sqflite.dart';
-// import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 
 class Home extends StatefulWidget {
@@ -12,7 +9,6 @@ class Home extends StatefulWidget {
 
   @override
   _HomeState createState() => _HomeState();
-
 }
 
 class _HomeState extends State<Home> {
@@ -96,7 +92,7 @@ class _HomeState extends State<Home> {
       },
     );
     AlertDialog alert = AlertDialog(
-      title: const Text("AlertDialog"),
+      title: const Text("Delete"),
       content: const Text("Would you like to delete this ingredient from Fridge?"),
       actions: [
         cancelButton,
