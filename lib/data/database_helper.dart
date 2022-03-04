@@ -49,4 +49,5 @@ class DatabaseHelper {
     return await db.delete('fridge_ingredients', where: 'id = ?', whereArgs: [id]);
   }
 
+
 }

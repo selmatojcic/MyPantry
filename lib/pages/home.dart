@@ -20,10 +20,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // WidgetsFlutterBinding.ensureInitialized();
-    return Scaffold(
+    return  WillPopScope(
+        onWillPop: () async => false,
+    child: Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[900],
         title: const Text('My Fridge'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: FutureBuilder<List<Result>>(
@@ -40,10 +43,8 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.all(4.0),
                   child: Card(
                     child: ListTile(
-                      onLongPress: () {
-                        setState(() {
-                          DatabaseHelper.instance.remove(ingredient.id);
-                        });
+                      onTap: () {
+                        showAlertDialogForDeletingIngredient(context, ingredient.id);
                       },
                       title: Text(ingredient.name),
                       contentPadding: const EdgeInsets.all(8.0),
@@ -69,18 +70,46 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.orange[900],
         child: const Icon(Icons.add),
       )
+    )
     );
   }
-}
-void showToastMessage(String message){
-  Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1, //for iOS only
-      textColor: Colors.white, //message text color
-      fontSize: 16.0
-  );
+
+  void showAlertDialogForDeletingIngredient(BuildContext context, int id) {
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel",
+        style: TextStyle(
+            color: Color(0xFFE65100)),
+      ),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Yes",
+        style: TextStyle(
+            color: Color(0xFFE65100)),
+      ),
+      onPressed:  () {
+        DatabaseHelper.instance.remove(id);
+        Navigator.pop(context);
+        setState(() {});
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: const Text("AlertDialog"),
+      content: const Text("Would you like to delete this ingredient from Fridge?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
 
 

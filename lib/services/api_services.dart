@@ -4,8 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:my_pantry/model/ingredient.dart';
 
 class ApiService {
-  //The API service will be a singleton, therefore create a private constructor
-  //ApiService._instantiate(), and a static instance variable
   ApiService._instantiate();
   static final ApiService instance = ApiService._instantiate();
 
