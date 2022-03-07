@@ -11,10 +11,6 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
 
-  // void setupIngredients() {
-  //   Navigator.pushReplacementNamed(context, '/add');
-  // }
-
   @override
   void initState() {
     super.initState();

@@ -48,6 +48,4 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.delete('fridge_ingredients', where: 'id = ?', whereArgs: [id]);
   }
-
-
 }

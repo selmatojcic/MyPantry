@@ -1,6 +1,5 @@
 
 class Result {
-
   final int id;
   final String name;
   final String image;
@@ -33,7 +32,6 @@ class Result {
 }
 
 class Ingredients {
-
   List<Result> results;
   final int offset;
   final int number;

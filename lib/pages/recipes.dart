@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_pantry/model/recipe.dart';
 import 'package:my_pantry/services/api_services.dart';
-import 'dart:developer';
 
 class Recipes extends StatefulWidget {
   const Recipes({Key? key}) : super(key: key);
@@ -11,7 +9,6 @@ class Recipes extends StatefulWidget {
 }
 
 class _Recipes extends State<Recipes> {
-  // late final Recipe recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +21,6 @@ class _Recipes extends State<Recipes> {
         body: FutureBuilder(
             future: RecipeApiService.instance.fetchRecipes(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              print(RecipeApiService.instance.fetchRecipes().toString());
-              print(snapshot.data.toString());
               if (snapshot.data == null) {
                 return const Center(
                     child: Text("Loading...")
@@ -41,9 +36,7 @@ class _Recipes extends State<Recipes> {
                             onTap: () { },
                             title: Text(snapshot.data[index].title),
                             contentPadding: const EdgeInsets.all(8.0),
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(snapshot.data[index].image),
-                            ),
+                            leading: Image.network(snapshot.data[index].image),
                           ),
                         ),
                       );

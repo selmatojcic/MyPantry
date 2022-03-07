@@ -33,7 +33,6 @@ class IngredientApiService {
       var response = await http.get(uri, headers: headers);
       final data = json.decode(response.body);
       Ingredients ingredients = Ingredients.fromJson(data);
-
       return ingredients;
     } catch (err) {
       throw err.toString();
