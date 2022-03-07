@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_pantry/data/database_helper.dart';
 import 'package:my_pantry/model/ingredient.dart';
 import 'package:my_pantry/pages/add_ingredient.dart';
+import 'package:my_pantry/pages/recipes.dart';
 
 
 class Home extends StatefulWidget {
@@ -54,18 +55,44 @@ class _HomeState extends State<Home> {
             );
             }
         ),
+
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const AddIngredient(),
-              ));
-        },
-        backgroundColor: Colors.orange[900],
-        child: const Icon(Icons.add),
-      )
+      floatingActionButton: Wrap(
+        direction: Axis.vertical,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              heroTag: 'btn1',
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Recipes(),
+                    ));
+              },
+              backgroundColor: Colors.orange[900],
+              child: const Icon(Icons.menu_book),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(5),
+            child: FloatingActionButton(
+              heroTag: 'btn2',
+              onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddIngredient(),
+                      ));
+                },
+                backgroundColor: Colors.orange[900],
+                child: const Icon(Icons.add),
+            ),
+          )
+        ],
+      ),
+
     )
     );
   }

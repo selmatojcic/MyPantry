@@ -31,7 +31,7 @@ class _AddIngredientState extends State<AddIngredient> {
           title: const Text('Choose an ingredient'),
         ),
         body: FutureBuilder(
-            future: ApiService.instance.fetchIngredients(),
+            future: IngredientApiService.instance.fetchIngredients(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return const Center(
