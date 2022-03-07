@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_pantry/model/recipe.dart';
 import 'package:my_pantry/services/api_services.dart';
+import '../widget/search_widget.dart';
 
 class Recipes extends StatefulWidget {
   const Recipes({Key? key}) : super(key: key);
@@ -9,6 +12,37 @@ class Recipes extends StatefulWidget {
 }
 
 class _Recipes extends State<Recipes> {
+  List<Recipe> recipeList = [];
+  String query = '';
+  Timer? debouncer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    init();
+  }
+
+  @override
+  void dispose() {
+    debouncer?.cancel();
+    super.dispose();
+  }
+
+  void debounce(VoidCallback callback, { Duration duration = const Duration(milliseconds: 1000)}) {
+    if (debouncer != null) {
+      debouncer!.cancel();
+    }
+    debouncer = Timer(duration, callback);
+  }
+
+  Future init() async {
+    final recipes = await RecipeApiService.instance.fetchRecipes('apple');
+
+    setState(() {
+      recipeList = recipes;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,34 +52,52 @@ class _Recipes extends State<Recipes> {
         title: const Text('Recipes'),
         backgroundColor: Colors.orange[900],
       ),
-        body: FutureBuilder(
-            future: RecipeApiService.instance.fetchRecipes(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return const Center(
-                    child: Text("Loading...")
-                );
-              } else {
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Card(
-                          child: ListTile(
-                            onTap: () { },
-                            title: Text(snapshot.data[index].title),
-                            contentPadding: const EdgeInsets.all(8.0),
-                            leading: Image.network(snapshot.data[index].image),
-                          ),
-                        ),
-                      );
-                    }
-                );
-              }
-            }
-        )
-      );
+        body: Column(
+          children: <Widget>[
+            buildSearch(),
+            Expanded(
+                child: ListView.builder(
+                  itemCount: recipeList.length,
+                  itemBuilder: (context, index) {
+                    final recipe = recipeList[index];
+                    return buildRecipe(recipe);
+                  },
+                )
+            )
+          ],
+        ),
+    );
   }
 
+  Widget buildSearch() => SearchWidget(
+    text: query,
+    hintText: 'Search by ingredient',
+    onChanged: searchRecipe,
+  );
+
+  Future searchRecipe(String query) async => debounce(() async {
+    final recipes = await RecipeApiService.instance.fetchRecipes(query);
+
+    if (!mounted) return;
+
+    setState(() {
+      this.query = query;
+      recipeList = recipes;
+    });
+  });
+
+  Widget buildRecipe(Recipe recipe) => Padding(
+    padding: const EdgeInsets.all(4.0),
+    child: Card(
+      child: ListTile(
+        onTap: () {},
+        leading: Image.network(
+          recipe.image,
+          fit: BoxFit.cover,
+        ),
+        title: Text(recipe.title),
+        contentPadding: const EdgeInsets.all(8.0),
+      ),
+    ),
+  );
 }
