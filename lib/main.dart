@@ -15,6 +15,5 @@ void main() => runApp(MaterialApp(
           '/add': (context) => const AddIngredient(),
           '/recipes': (context) => const Recipes(),
           '/advanced_search': (context) => const AdvancedSearch(),
-          // '/recipes_by_ingredients' : (context) => const RecipesByIngredients(),
     }
 ));

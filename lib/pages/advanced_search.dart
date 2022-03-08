@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_pantry/pages/recipes_by_ingredients.dart';
 
 import '../data/database_helper.dart';
 import '../model/ingredient.dart';
@@ -71,7 +72,10 @@ class _AdvancedSearch extends State<AdvancedSearch> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AdvancedSearch(),
+                      builder: (context) => const RecipesByIngredients(),
+                      settings: RouteSettings(
+                        arguments: text
+                      )
                     ));
               },
               child: const Text(
