@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // WidgetsFlutterBinding.ensureInitialized();
-    return  WillPopScope(
+    return WillPopScope(
         onWillPop: () async => false,
     child: Scaffold(
       appBar: AppBar(
@@ -55,7 +55,6 @@ class _HomeState extends State<Home> {
             );
             }
         ),
-
       ),
       floatingActionButton: Wrap(
         direction: Axis.vertical,

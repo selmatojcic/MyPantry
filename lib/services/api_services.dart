@@ -10,7 +10,8 @@ class IngredientApiService {
   static final IngredientApiService instance = IngredientApiService._instantiate();
 
   final String _baseURL = "api.spoonacular.com";
-  static const String API_KEY ="d5e5abb43ff04413b72c202719110909";
+  // static const String API_KEY ="d5e5abb43ff04413b72c202719110909";
+  static const String API_KEY ="b11fb3610d944e32994f74d8fc8176fb";
 
   Future<Ingredients> fetchIngredients(String query) async {
     Map<String, String> parameters = {
@@ -44,7 +45,8 @@ class RecipeApiService {
   static final RecipeApiService instance = RecipeApiService._instantiate();
 
   final String _baseURL = "api.spoonacular.com";
-  static const String API_KEY ="d5e5abb43ff04413b72c202719110909";
+  // static const String API_KEY ="d5e5abb43ff04413b72c202719110909";
+  static const String API_KEY ="b11fb3610d944e32994f74d8fc8176fb";
 
   Future<List<Recipe>> fetchRecipes(String ingredients) async {
     Map<String, String> parameters = {

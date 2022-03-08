@@ -51,11 +51,11 @@ class _AddIngredientState extends State<AddIngredient> {
   @override
   Widget build(BuildContext context) {
     return  WillPopScope(
-        onWillPop: () async {
-          Navigator.pushReplacementNamed(context, '/home').then((_) => setState(() {}));
-          return true;
-        },
-    child: Scaffold(
+      onWillPop: () async {
+        Navigator.pushReplacementNamed(context, '/home').then((_) => setState(() {}));
+        return true;
+      },
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange[900],
           title: const Text('Choose an ingredient'),
@@ -125,21 +125,21 @@ class _AddIngredientState extends State<AddIngredient> {
   void showAlertDialogForAddingIngredient(BuildContext context, Result result) {
     Widget cancelButton = TextButton(
       child: const Text("Cancel",
-      style: TextStyle(
-          color: Color(0xFFE65100)),
+        style: TextStyle(
+            color: Color(0xFFE65100)),
       ),
       onPressed:  () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Yes",
-        style: TextStyle(
-            color: Color(0xFFE65100)),
-      ),
-      onPressed:  () async {
-        await DatabaseHelper.instance.add(result);
-        Navigator.pop(context);
+        child: const Text("Yes",
+          style: TextStyle(
+              color: Color(0xFFE65100)),
+        ),
+        onPressed:  () async {
+          await DatabaseHelper.instance.add(result);
+          Navigator.pop(context);
         }
     );
     AlertDialog alert = AlertDialog(
@@ -159,4 +159,3 @@ class _AddIngredientState extends State<AddIngredient> {
   }
 
 }
-

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_pantry/model/recipe.dart';
+import 'package:my_pantry/pages/advanced_search.dart';
 import 'package:my_pantry/services/api_services.dart';
 import '../widget/search_widget.dart';
 
@@ -20,7 +21,7 @@ class _Recipes extends State<Recipes> {
   void initState() {
     super.initState();
 
-    init();
+    // init();
   }
 
   @override
@@ -29,7 +30,7 @@ class _Recipes extends State<Recipes> {
     super.dispose();
   }
 
-  void debounce(VoidCallback callback, { Duration duration = const Duration(milliseconds: 1000)}) {
+  void debounce(VoidCallback callback, { Duration duration = const Duration(milliseconds: 2000)}) {
     if (debouncer != null) {
       debouncer!.cancel();
     }
@@ -55,6 +56,27 @@ class _Recipes extends State<Recipes> {
         body: Column(
           children: <Widget>[
             buildSearch(),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AdvancedSearch(),
+                          ));
+                    },
+                    child:  const Text(
+                        'ADVANCED SEARCH',
+                        style: TextStyle(
+                            color: Color(0xFFFFFFFF))
+                    ),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange[900])),
+                ),
+              ),
+            ),
             Expanded(
                 child: ListView.builder(
                   itemCount: recipeList.length,
