@@ -74,3 +74,37 @@ class RecipeApiService {
     }
   }
 }
+
+class RecipeDetailsApiService {
+  RecipeDetailsApiService._instantiate();
+  static final RecipeDetailsApiService instance = RecipeDetailsApiService._instantiate();
+
+  final String _baseURL = "api.spoonacular.com";
+  // static const String API_KEY ="d5e5abb43ff04413b72c202719110909";
+  static const String API_KEY ="b11fb3610d944e32994f74d8fc8176fb";
+
+  Future<Recipe> fetchRecipeUrl(int id) async {
+    Map<String, String> parameters = {
+      'apiKey': API_KEY,
+    };
+
+    Uri uri = Uri.https(
+      _baseURL,
+      '/recipes/$id/information',
+      parameters,
+    );
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    try {
+      var response = await http.get(uri, headers: headers);
+      final parsedData = json.decode(response.body);
+      Recipe recipe = Recipe.fromJson(parsedData);
+      return recipe;
+    } catch (err) {
+      throw err.toString();
+    }
+  }
+}

@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_pantry/model/recipe.dart';
-import 'package:my_pantry/pages/advanced_search.dart';
 import 'package:my_pantry/services/api_services.dart';
-import '../widget/search_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipesByIngredients extends StatefulWidget {
   const RecipesByIngredients({Key? key}) : super(key: key);
@@ -28,14 +26,21 @@ class _RecipesByIngredients extends State<RecipesByIngredients> {
           future: RecipeApiService.instance.fetchRecipes(query),
           builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
             return ListView.builder(
-              itemCount: snapshot.data?.length,
+              itemCount: snapshot.data == null ? 0 : snapshot.data?.length,
               itemBuilder: (context, index) {
                 final recipe = snapshot.data![index];
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Card(
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () async {
+                        Recipe recipeResponse = await RecipeDetailsApiService.instance.fetchRecipeUrl(recipe.id);
+                        try {
+                          launch(recipeResponse.sourceUrl);
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
                       leading: Image.network(
                         recipe.image,
                         fit: BoxFit.cover,

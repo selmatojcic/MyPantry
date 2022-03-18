@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_pantry/pages/recipes_by_ingredients.dart';
-
 import '../data/database_helper.dart';
 import '../model/ingredient.dart';
 

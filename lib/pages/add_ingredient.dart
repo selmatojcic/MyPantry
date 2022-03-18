@@ -16,7 +16,7 @@ class AddIngredient extends StatefulWidget {
 }
 
 class _AddIngredientState extends State<AddIngredient> {
-  late Ingredients ingredientList;
+  Ingredients? ingredientList;
   String query = '';
   Timer? debouncer;
 
@@ -65,10 +65,10 @@ class _AddIngredientState extends State<AddIngredient> {
             buildSearch(),
             Expanded(
                 child: ListView.builder(
-                  itemCount: ingredientList.results.length,
+                  itemCount: ingredientList == null ? 0 : ingredientList?.results.length,
                   itemBuilder: (context, index) {
-                    final ingredient = ingredientList.results[index];
-                    return buildIngredient(ingredient);
+                    final ingredient = ingredientList?.results[index];
+                    return buildIngredient(ingredient!);
                   },
                 )
             )

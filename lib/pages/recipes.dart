@@ -4,6 +4,7 @@ import 'package:my_pantry/model/recipe.dart';
 import 'package:my_pantry/pages/advanced_search.dart';
 import 'package:my_pantry/services/api_services.dart';
 import '../widget/search_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Recipes extends StatefulWidget {
   const Recipes({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _Recipes extends State<Recipes> {
   void initState() {
     super.initState();
 
-    // init();
+    init();
   }
 
   @override
@@ -112,7 +113,14 @@ class _Recipes extends State<Recipes> {
     padding: const EdgeInsets.all(4.0),
     child: Card(
       child: ListTile(
-        onTap: () {},
+        onTap: () async {
+          Recipe recipeResponse = await RecipeDetailsApiService.instance.fetchRecipeUrl(recipe.id);
+          try {
+            launch(recipeResponse.sourceUrl);
+          } catch (e) {
+            print(e);
+          }
+        },
         leading: Image.network(
           recipe.image,
           fit: BoxFit.cover,

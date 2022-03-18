@@ -4,7 +4,6 @@ import 'package:my_pantry/model/ingredient.dart';
 import 'package:my_pantry/pages/add_ingredient.dart';
 import 'package:my_pantry/pages/recipes.dart';
 
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -16,7 +15,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsFlutterBinding.ensureInitialized();
     return WillPopScope(
         onWillPop: () async => false,
     child: Scaffold(
