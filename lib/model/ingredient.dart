@@ -3,8 +3,9 @@ class Result {
   final int id;
   final String name;
   final String image;
+  String? expirationDate;
 
-  Result({required this.id, required this.name, required this.image });
+  Result({required this.id, required this.name, required this.image});
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
@@ -26,7 +27,8 @@ class Result {
     return {
       'id': id,
       'name': name,
-      'image': image
+      'image': image,
+      'expirationDate': expirationDate
     };
   }
 }

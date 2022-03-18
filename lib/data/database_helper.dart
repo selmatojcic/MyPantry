@@ -26,7 +26,8 @@ class DatabaseHelper {
       CREATE TABLE fridge_ingredients(
           id INTEGER PRIMARY KEY,
           name TEXT,
-          image TEXT
+          image TEXT,
+          expirationDate TEXT
       )
       ''');
   }
@@ -47,5 +48,10 @@ class DatabaseHelper {
   Future<int> remove(int id) async {
     Database db = await instance.database;
     return await db.delete('fridge_ingredients', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> update(Result ingredient) async {
+    Database db = await instance.database;
+    return await db.update('fridge_ingredients', ingredient.toMap(), where: 'id = ?', whereArgs: [ingredient.id]);
   }
 }

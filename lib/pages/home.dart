@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_pantry/data/database_helper.dart';
 import 'package:my_pantry/model/ingredient.dart';
 import 'package:my_pantry/pages/add_ingredient.dart';
 import 'package:my_pantry/pages/recipes.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:my_pantry/services/notification_service.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,6 +17,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    tz.initializeTimeZones();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +51,31 @@ class _HomeState extends State<Home> {
                   child: Card(
                     child: ListTile(
                       onTap: () {
+                        // NotificationService().showNotification(1, ingredient.name, 'body', 10);
+                        print('tapped ${ingredient.name} expires ${ingredient.expirationDate}');
                         showAlertDialogForDeletingIngredient(context, ingredient.id);
                       },
-                      title: Text(ingredient.name),
-                      contentPadding: const EdgeInsets.all(8.0),
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(ingredient.image),
+                        title: Text(ingredient.name),
+                        subtitle: Text(
+                            ingredient.expirationDate == null ? '' :
+                              "expiration date: ${ingredient.expirationDate})"
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(16.0, 10.0, 20.0, 10.0),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(ingredient.image),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            selectDate(context, ingredient);
+                          },
+                          icon: const Icon(Icons.calendar_month),
+                        )
                       ),
                     ),
-                  ),
-                );
-            }).toList(),
+                  );
+              }).toList(),
             );
-            }
+          }
         ),
       ),
       floatingActionButton: Wrap(
@@ -129,6 +153,34 @@ class _HomeState extends State<Home> {
         return alert;
       },
     );
+  }
+
+  selectDate(BuildContext context, Result result) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFFE65100),
+              onPrimary: Colors.white,
+              surface: Color(0xFFE65100),
+              onSurface: Colors.white,
+            ),
+            // dialogBackgroundColor:Colors.blue[900],
+          ), child: child!,
+        );
+      }
+     );
+    String formattedDate = DateFormat("dd-MM-yyyy").format(picked);
+    setState(() {
+        result.expirationDate = formattedDate;
+    });
+    print(result.expirationDate);
+    await DatabaseHelper.instance.update(result);
   }
 }
 
