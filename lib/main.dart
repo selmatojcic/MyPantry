@@ -6,11 +6,10 @@ import 'package:my_pantry/pages/recipes.dart';
 import 'package:my_pantry/pages/splash.dart';
 import 'package:my_pantry/pages/home.dart';
 import 'package:my_pantry/pages/add_ingredient.dart';
-import 'package:my_pantry/services/notification_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
+  // NotificationService().initNotification();
 
   runApp(MaterialApp(
       initialRoute: '/',

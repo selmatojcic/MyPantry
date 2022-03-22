@@ -3,7 +3,6 @@ class Result {
   final int id;
   final String name;
   final String image;
-  String? expirationDate;
 
   Result({required this.id, required this.name, required this.image});
 
@@ -28,7 +27,6 @@ class Result {
       'id': id,
       'name': name,
       'image': image,
-      'expirationDate': expirationDate
     };
   }
 }

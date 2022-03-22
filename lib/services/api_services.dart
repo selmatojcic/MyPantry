@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:my_pantry/model/ingredient.dart';
 import 'package:my_pantry/model/recipe.dart';
 
-
 class IngredientApiService {
   IngredientApiService._instantiate();
   static final IngredientApiService instance = IngredientApiService._instantiate();

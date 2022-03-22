@@ -36,7 +36,7 @@ class _RecipesByIngredients extends State<RecipesByIngredients> {
                       onTap: () async {
                         Recipe recipeResponse = await RecipeDetailsApiService.instance.fetchRecipeUrl(recipe.id);
                         try {
-                          launch(recipeResponse.sourceUrl);
+                          launch(recipeResponse.spoonacularSourceUrl);
                         } catch (e) {
                           print(e);
                         }

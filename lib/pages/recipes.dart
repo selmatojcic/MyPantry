@@ -94,7 +94,7 @@ class _Recipes extends State<Recipes> {
 
   Widget buildSearch() => SearchWidget(
     text: query,
-    hintText: 'Search by ingredient',
+    hintText: 'Search recipe',
     onChanged: searchRecipe,
   );
 
@@ -116,7 +116,7 @@ class _Recipes extends State<Recipes> {
         onTap: () async {
           Recipe recipeResponse = await RecipeDetailsApiService.instance.fetchRecipeUrl(recipe.id);
           try {
-            launch(recipeResponse.sourceUrl);
+            launch(recipeResponse.spoonacularSourceUrl);
           } catch (e) {
             print(e);
           }

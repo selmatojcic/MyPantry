@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_pantry/pages/recipes_by_ingredients.dart';
 import '../data/database_helper.dart';
 import '../model/ingredient.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AdvancedSearch extends StatefulWidget {
   const AdvancedSearch({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class AdvancedSearch extends StatefulWidget {
 }
 
 class _AdvancedSearch extends State<AdvancedSearch> {
-  List<Result> ingredientsToSearchBy = [];
+  List<Result> selectedIngredients = [];
   String text = 'SELECTED INGREDIENTS: ';
 
   @override
@@ -68,14 +69,26 @@ class _AdvancedSearch extends State<AdvancedSearch> {
             padding: const EdgeInsets.only(bottom: 16.0),
             child: TextButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RecipesByIngredients(),
-                      settings: RouteSettings(
-                        arguments: text
-                      )
-                    ));
+                if (selectedIngredients.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: "You have to select at least one ingredient!",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.orange[900],
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RecipesByIngredients(),
+                          settings: RouteSettings(
+                              arguments: text
+                          )
+                      ));
+                }
               },
               child: const Text(
                   'FIND RECIPE',
@@ -106,14 +119,14 @@ class _AdvancedSearch extends State<AdvancedSearch> {
             color: Color(0xFFE65100)),
       ),
       onPressed:  () {
-        ingredientsToSearchBy.add(result);
+        selectedIngredients.add(result);
         changeText(result.name);
         Navigator.pop(context);
         setState(() {});
       },
     );
     AlertDialog alert = AlertDialog(
-      title: const Text("Find recipe with this ingredient"),
+      title: const Text("Find recipe"),
       content: const Text("Would you like to find a recipe with this ingredient?"),
       actions: [
         cancelButton,

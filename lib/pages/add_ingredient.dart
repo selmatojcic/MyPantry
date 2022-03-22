@@ -5,6 +5,7 @@ import 'package:my_pantry/services/api_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_pantry/model/ingredient.dart';
 import '../widget/search_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddIngredient extends StatefulWidget {
   const AddIngredient({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class _AddIngredientState extends State<AddIngredient> {
   Ingredients? ingredientList;
   String query = '';
   Timer? debouncer;
+  bool flag = false;
 
   @override
   void initState() {
@@ -97,8 +99,25 @@ class _AddIngredientState extends State<AddIngredient> {
     padding: const EdgeInsets.all(4.0),
     child: Card(
       child: ListTile(
-        onTap: () {
-          showAlertDialogForAddingIngredient(context, result);
+        onTap: () async {
+          flag = false;
+          List<Result> dbIngredients = await DatabaseHelper.instance.getIngredients();
+          for(var dbIngredient in dbIngredients) {
+            if(dbIngredient.id == result.id) {
+              Fluttertoast.showToast(
+                  msg: "You already have ${result.name} in your fridge!",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.orange[900],
+                  textColor: Colors.white,
+                  fontSize: 16.0
+              );
+              flag = true;
+            }
+          } if(flag == false) {
+            showAlertDialogForAddingIngredient(context, result);
+          }
         },
         leading: CircleAvatar(
             backgroundImage: NetworkImage(result.image)
