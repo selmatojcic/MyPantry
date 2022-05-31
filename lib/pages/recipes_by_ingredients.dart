@@ -63,5 +63,4 @@ class _RecipesByIngredients extends State<RecipesByIngredients> {
     String temp3 = temp2.substring(2);
     return temp3;
   }
-
 }

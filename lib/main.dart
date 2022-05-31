@@ -9,10 +9,10 @@ import 'package:my_pantry/pages/add_ingredient.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // NotificationService().initNotification();
 
   runApp(MaterialApp(
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const Splash(),
         '/home': (context) => const Home(),

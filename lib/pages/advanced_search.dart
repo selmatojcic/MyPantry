@@ -146,5 +146,4 @@ class _AdvancedSearch extends State<AdvancedSearch> {
       text += '\n$name';
     });
   }
-
 }

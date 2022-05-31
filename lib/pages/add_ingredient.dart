@@ -5,7 +5,6 @@ import 'package:my_pantry/services/api_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_pantry/model/ingredient.dart';
 import '../widget/search_widget.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AddIngredient extends StatefulWidget {
   const AddIngredient({Key? key}) : super(key: key);
@@ -128,17 +127,6 @@ class _AddIngredientState extends State<AddIngredient> {
     ),
   );
 
-  void showToastMessage(String message){
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1, //for iOS only
-        textColor: Colors.black,
-        fontSize: 16.0
-    );
-  }
-
   void showAlertDialogForAddingIngredient(BuildContext context, Result result) {
     Widget cancelButton = TextButton(
       child: const Text("Cancel",
@@ -174,5 +162,4 @@ class _AddIngredientState extends State<AddIngredient> {
       },
     );
   }
-
 }

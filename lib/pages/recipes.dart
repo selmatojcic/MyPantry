@@ -21,7 +21,6 @@ class _Recipes extends State<Recipes> {
   @override
   void initState() {
     super.initState();
-
     init();
   }
 
