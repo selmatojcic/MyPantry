@@ -11,20 +11,20 @@ class RecipesByIngredients extends StatefulWidget {
 }
 
 class _RecipesByIngredients extends State<RecipesByIngredients> {
-
   @override
   Widget build(BuildContext context) {
     final argument = ModalRoute.of(context)!.settings.arguments as String;
     String query = formatString(argument);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recipes by ingredients'),
-        backgroundColor: Colors.orange[900],
-      ),
-      body: FutureBuilder<List<Recipe>>(
+        appBar: AppBar(
+          title: const Text('Recipes by ingredients'),
+          backgroundColor: Colors.orange[900],
+        ),
+        body: FutureBuilder<List<Recipe>>(
           future: RecipeApiService.instance.fetchRecipes(query),
-          builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
             return ListView.builder(
               itemCount: snapshot.data == null ? 0 : snapshot.data?.length,
               itemBuilder: (context, index) {
@@ -34,7 +34,9 @@ class _RecipesByIngredients extends State<RecipesByIngredients> {
                   child: Card(
                     child: ListTile(
                       onTap: () async {
-                        Recipe recipeResponse = await RecipeDetailsApiService.instance.fetchRecipeUrl(recipe.id);
+                        Recipe recipeResponse = await RecipeDetailsApiService
+                            .instance
+                            .fetchRecipeUrl(recipe.id);
                         try {
                           launch(recipeResponse.spoonacularSourceUrl);
                         } catch (e) {
@@ -53,8 +55,7 @@ class _RecipesByIngredients extends State<RecipesByIngredients> {
               },
             );
           },
-        )
-    );
+        ));
   }
 
   String formatString(String argument) {

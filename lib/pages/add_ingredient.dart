@@ -22,7 +22,6 @@ class _AddIngredientState extends State<AddIngredient> {
   @override
   void initState() {
     super.initState();
-
     init();
   }
 
@@ -32,7 +31,8 @@ class _AddIngredientState extends State<AddIngredient> {
     super.dispose();
   }
 
-  void debounce(VoidCallback callback, { Duration duration = const Duration(milliseconds: 1000)}) {
+  void debounce(VoidCallback callback,
+      {Duration duration = const Duration(milliseconds: 1000)}) {
     if (debouncer != null) {
       debouncer!.cancel();
     }
@@ -40,7 +40,8 @@ class _AddIngredientState extends State<AddIngredient> {
   }
 
   Future init() async {
-    final ingredients = await IngredientApiService.instance.fetchIngredients('apple');
+    final ingredients =
+        await IngredientApiService.instance.fetchIngredients('apple');
 
     setState(() {
       ingredientList = ingredients;
@@ -49,9 +50,10 @@ class _AddIngredientState extends State<AddIngredient> {
 
   @override
   Widget build(BuildContext context) {
-    return  WillPopScope(
+    return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacementNamed(context, '/home').then((_) => setState(() {}));
+        Navigator.pushReplacementNamed(context, '/home')
+            .then((_) => setState(() {}));
         return true;
       },
       child: Scaffold(
@@ -59,18 +61,18 @@ class _AddIngredientState extends State<AddIngredient> {
           backgroundColor: Colors.orange[900],
           title: const Text('Choose an ingredient'),
         ),
-        body: Column (
+        body: Column(
           children: <Widget>[
             buildSearch(),
             Expanded(
                 child: ListView.builder(
-                  itemCount: ingredientList == null ? 0 : ingredientList?.results.length,
-                  itemBuilder: (context, index) {
-                    final ingredient = ingredientList?.results[index];
-                    return buildIngredient(ingredient!);
-                  },
-                )
-            )
+              itemCount:
+                  ingredientList == null ? 0 : ingredientList?.results.length,
+              itemBuilder: (context, index) {
+                final ingredient = ingredientList?.results[index];
+                return buildIngredient(ingredient!);
+              },
+            ))
           ],
         ),
       ),
@@ -78,75 +80,72 @@ class _AddIngredientState extends State<AddIngredient> {
   }
 
   Widget buildSearch() => SearchWidget(
-    text: query,
-    hintText: 'Search ingredient',
-    onChanged: searchIngredient,
-  );
+        text: query,
+        hintText: 'Search ingredient',
+        onChanged: searchIngredient,
+      );
 
   Future searchIngredient(String query) async => debounce(() async {
-    final ingredients = await IngredientApiService.instance.fetchIngredients(query);
-
-    if (!mounted) return;
-
-    setState(() {
-      this.query = query;
-      ingredientList = ingredients;
-    });
-  });
+        final ingredients =
+            await IngredientApiService.instance.fetchIngredients(query);
+        if (!mounted) return;
+        setState(() {
+          this.query = query;
+          ingredientList = ingredients;
+        });
+      });
 
   Widget buildIngredient(Result result) => Padding(
-    padding: const EdgeInsets.all(4.0),
-    child: Card(
-      child: ListTile(
-        onTap: () async {
-          flag = false;
-          List<Result> dbIngredients = await DatabaseHelper.instance.getIngredients();
-          for(var dbIngredient in dbIngredients) {
-            if(dbIngredient.id == result.id) {
-              Fluttertoast.showToast(
-                  msg: "You already have ${result.name} in your fridge!",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.orange[900],
-                  textColor: Colors.white,
-                  fontSize: 16.0
-              );
-              flag = true;
-            }
-          } if(flag == false) {
-            showAlertDialogForAddingIngredient(context, result);
-          }
-        },
-        leading: CircleAvatar(
-            backgroundImage: NetworkImage(result.image)
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            onTap: () async {
+              flag = false;
+              List<Result> dbIngredients =
+                  await DatabaseHelper.instance.getIngredients();
+              for (var dbIngredient in dbIngredients) {
+                if (dbIngredient.id == result.id) {
+                  Fluttertoast.showToast(
+                      msg: "You already have ${result.name} in your fridge!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.orange[900],
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                  flag = true;
+                }
+              }
+              if (flag == false) {
+                showAlertDialogForAddingIngredient(context, result);
+              }
+            },
+            leading: CircleAvatar(backgroundImage: NetworkImage(result.image)),
+            title: Text(result.name),
+            contentPadding: const EdgeInsets.all(8.0),
+          ),
         ),
-        title: Text(result.name),
-        contentPadding: const EdgeInsets.all(8.0),
-      ),
-    ),
-  );
+      );
 
   void showAlertDialogForAddingIngredient(BuildContext context, Result result) {
     Widget cancelButton = TextButton(
-      child: const Text("Cancel",
-        style: TextStyle(
-            color: Color(0xFFE65100)),
+      child: const Text(
+        "Cancel",
+        style: TextStyle(color: Color(0xFFE65100)),
       ),
-      onPressed:  () {
+      onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-        child: const Text("Yes",
-          style: TextStyle(
-              color: Color(0xFFE65100)),
+        child: const Text(
+          "Yes",
+          style: TextStyle(color: Color(0xFFE65100)),
         ),
-        onPressed:  () async {
+        onPressed: () async {
           await DatabaseHelper.instance.add(result);
           Navigator.pop(context);
-        }
-    );
+        });
     AlertDialog alert = AlertDialog(
       title: const Text("Add"),
       content: const Text("Would you like to add this ingredient to Fridge?"),

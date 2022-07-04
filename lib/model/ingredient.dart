@@ -1,4 +1,3 @@
-
 class Result {
   final int id;
   final String name;
@@ -37,11 +36,16 @@ class Ingredients {
   final int number;
   final int totalResults;
 
-  Ingredients({required this.results, required this.offset, required this.number, required this.totalResults});
+  Ingredients(
+      {required this.results,
+      required this.offset,
+      required this.number,
+      required this.totalResults});
 
   factory Ingredients.fromJson(Map<String, dynamic> json) {
     var list = json['results'] as List;
-    List<Result> resultsList = list.map((result) => Result.fromJson(result)).toList();
+    List<Result> resultsList =
+        list.map((result) => Result.fromJson(result)).toList();
     return Ingredients(
       results: resultsList,
       offset: json['offset'],
@@ -50,4 +54,3 @@ class Ingredients {
     );
   }
 }
-

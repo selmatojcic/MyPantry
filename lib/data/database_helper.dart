@@ -6,9 +6,11 @@ import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
+
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database? _database;
+
   Future<Database> get database async => _database ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {
@@ -33,9 +35,11 @@ class DatabaseHelper {
 
   Future<List<Result>> getIngredients() async {
     Database db = await instance.database;
-    var fridgeIngredients = await db.query('fridge_ingredients', orderBy: 'name');
+    var fridgeIngredients =
+        await db.query('fridge_ingredients', orderBy: 'name');
     List<Result> fridgeIngredientsList = fridgeIngredients.isNotEmpty
-        ? fridgeIngredients.map((c) => Result.fromMap(c)).toList() : [];
+        ? fridgeIngredients.map((c) => Result.fromMap(c)).toList()
+        : [];
     return fridgeIngredientsList;
   }
 
@@ -46,6 +50,7 @@ class DatabaseHelper {
 
   Future<int> remove(int id) async {
     Database db = await instance.database;
-    return await db.delete('fridge_ingredients', where: 'id = ?', whereArgs: [id]);
+    return await db
+        .delete('fridge_ingredients', where: 'id = ?', whereArgs: [id]);
   }
 }

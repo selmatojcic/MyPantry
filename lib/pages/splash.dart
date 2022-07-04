@@ -10,16 +10,15 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-
   @override
   void initState() {
     super.initState();
     Future.delayed(
         const Duration(seconds: 3),
-            () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Home()),
-        ));
+        () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Home()),
+            ));
   }
 
   @override
@@ -28,10 +27,8 @@ class _SplashState extends State<Splash> {
         backgroundColor: Colors.orange[900],
         body: const Center(
             child: SpinKitDoubleBounce(
-              color: Colors.white,
-              size: 90.0,
-            )
-        )
-    );
+          color: Colors.white,
+          size: 90.0,
+        )));
   }
 }

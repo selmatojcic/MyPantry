@@ -7,14 +7,16 @@ import 'package:my_pantry/model/recipe.dart';
 
 class IngredientApiService {
   IngredientApiService._instantiate();
-  static final IngredientApiService instance = IngredientApiService._instantiate();
+
+  static final IngredientApiService instance =
+      IngredientApiService._instantiate();
 
   final String _baseURL = "api.spoonacular.com";
-  static const String API_KEY ="b11fb3610d944e32994f74d8fc8176fb";
+  static const String API_KEY = "b11fb3610d944e32994f74d8fc8176fb";
 
   Future<Ingredients> fetchIngredients(String query) async {
     Map<String, String> parameters = {
-      'query' : query,
+      'query': query,
       'apiKey': API_KEY,
     };
 
@@ -41,10 +43,11 @@ class IngredientApiService {
 
 class RecipeApiService {
   RecipeApiService._instantiate();
+
   static final RecipeApiService instance = RecipeApiService._instantiate();
 
   final String _baseURL = "api.spoonacular.com";
-  static const String API_KEY ="b11fb3610d944e32994f74d8fc8176fb";
+  static const String API_KEY = "b11fb3610d944e32994f74d8fc8176fb";
 
   Future<List<Recipe>> fetchRecipes(String ingredients) async {
     Map<String, String> parameters = {
@@ -65,7 +68,8 @@ class RecipeApiService {
     try {
       var response = await http.get(uri, headers: headers);
       final parsedData = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      List<Recipe> recipes = parsedData.map<Recipe>((json) => Recipe.fromJson(json)).toList();
+      List<Recipe> recipes =
+          parsedData.map<Recipe>((json) => Recipe.fromJson(json)).toList();
       return recipes;
     } catch (err) {
       throw err.toString();
@@ -75,10 +79,12 @@ class RecipeApiService {
 
 class RecipeDetailsApiService {
   RecipeDetailsApiService._instantiate();
-  static final RecipeDetailsApiService instance = RecipeDetailsApiService._instantiate();
+
+  static final RecipeDetailsApiService instance =
+      RecipeDetailsApiService._instantiate();
 
   final String _baseURL = "api.spoonacular.com";
-  static const String API_KEY ="b11fb3610d944e32994f74d8fc8176fb";
+  static const String API_KEY = "b11fb3610d944e32994f74d8fc8176fb";
 
   Future<Recipe> fetchRecipeUrl(int id) async {
     Map<String, String> parameters = {
