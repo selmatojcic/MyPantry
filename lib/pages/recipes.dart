@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:my_pantry/model/recipe.dart';
 import 'package:my_pantry/pages/advanced_search.dart';
 import 'package:my_pantry/services/api_services.dart';
-import '../widget/search_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../widget/search_widget.dart';
 
 class Recipes extends StatefulWidget {
   const Recipes({Key? key}) : super(key: key);

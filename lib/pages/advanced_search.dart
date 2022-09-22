@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_pantry/pages/recipes_by_ingredients.dart';
+
 import '../data/database_helper.dart';
 import '../model/ingredient.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AdvancedSearch extends StatefulWidget {
   const AdvancedSearch({Key? key}) : super(key: key);
